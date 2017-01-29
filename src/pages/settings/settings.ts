@@ -1,22 +1,43 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-
-/*
-  Generated class for the Settings page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+import { RedditService } from '../../app/services/reddit.service';
+import { RedditsPage } from '../pages';
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html'
 })
 export class SettingsPage {
+  category: any;
+  limit: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {}
+  constructor(public navCtrl: NavController, public navParams: NavParams, private redditService: RedditService) {
+    this.getDefault();
+  }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad SettingsPage');
+    console.log('ionViewDidLoad RedditsPage');
   }
+
+  getDefault(){
+    if(localStorage.getItem('category') != null){
+      this.category = localStorage.getItem('category');
+    } else {
+      this.category='sports';
+    }
+    
+    if(localStorage.getItem('limit') != null){
+      this.limit = localStorage.getItem('limit');
+    } else {
+      this.limit= 10;
+    }
+  }
+
+  setDefaults(){
+    localStorage.setItem('category', this.category);
+    localStorage.setItem('limit', this.limit);
+    this.navCtrl.push(RedditsPage);
+    
+  }
+
 
 }
